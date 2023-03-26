@@ -1,0 +1,45 @@
+version: '3.9'
+
+services:
+  nginx-proxy-1:
+    image: nginxproxy/nginx-proxy
+    ports:
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+
+  nginx-proxy-2:
+    image: nginxproxy/nginx-proxy
+    ports:
+      - "82:82"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+
+  nginx-proxy-3:
+    image: nginxproxy/nginx-proxy
+    ports:
+      - "83:83"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+
+  nginx-proxy-4:
+    image: nginxproxy/nginx-proxy
+    ports:
+      - "84:84"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+
+  app: 
+    image: app
+    container_name: api
+    build: ./App/
+    ports:
+      - "8080:8080"
+
+  whoami:
+    image: jwilder/whoami
+    expose:
+      - "8000"
+    environment:
+      - VIRTUAL_HOST=whoami.local
+      - VIRTUAL_PORT=8000
